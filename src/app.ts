@@ -3,11 +3,11 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
+dotenv.config();
+
 import personRouter from "./routes/persons.routes";
 import postRouter from "./routes/post.routes";
 import userRouter from "./routes/user.routes";
-
-dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 8080;
