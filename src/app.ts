@@ -12,7 +12,15 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3010", "http://81.177.217.57:3010"], // Allowed origins
+    credentials: true, // Allow cookies and credentials
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    exposedHeaders: ["set-cookie"], // Expose headers to the client
+  }),
+);
 app.use(bodyParser.json());
 app.use("/api", personRouter);
 app.use("/api", postRouter);
