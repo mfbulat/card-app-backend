@@ -1,6 +1,5 @@
 import express, { Application } from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -8,6 +7,7 @@ dotenv.config();
 import personRouter from "./routes/persons.routes";
 import postRouter from "./routes/post.routes";
 import userRouter from "./routes/user.routes";
+import { initializeDatabase } from "./db";
 
 const app: Application = express();
 const PORT = process.env.PORT || 8080;
@@ -21,11 +21,13 @@ app.use(
     exposedHeaders: ["set-cookie"], // Expose headers to the client
   }),
 );
-app.use(bodyParser.json());
+app.use(express.json());
 app.use("/api", personRouter);
 app.use("/api", postRouter);
 app.use("/api", userRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+initializeDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 });
